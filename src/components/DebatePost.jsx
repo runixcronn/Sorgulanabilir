@@ -63,7 +63,8 @@ Form çalışmıyor. Göreviniz, kullanıcı "Gönder "e tıkladığında gönde
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (!formData.userName || !formData.commentText) {
+    if (!formData.userName.trim() && !formData.isAnonymous) {
+      alert("Kullanıcı adı girmelisiniz veya anonim olarak göndermelisiniz.");
       return;
     }
 
@@ -71,8 +72,7 @@ Form çalışmıyor. Göreviniz, kullanıcı "Gönder "e tıkladığında gönde
 
     const newComment = {
       id: newId,
-      userName: formData.userName,
-      isAnonymous: formData.isAnonymous,
+      userName: formData.isAnonymous ? "AnonimKullanıcı" : formData.userName,
       commentText: formData.commentText,
     };
 
@@ -97,8 +97,9 @@ Form çalışmıyor. Göreviniz, kullanıcı "Gönder "e tıkladığında gönde
           name="userName"
           value={formData.userName}
           onChange={handleChange}
-          required
+          required={!formData.isAnonymous}
         />
+
         <textarea
           placeholder="Ne düşünüyorsunuz?"
           name="commentText"
